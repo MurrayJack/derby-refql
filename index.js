@@ -1,16 +1,26 @@
-var express = require('express');
-var graphqlHTTP = require('express-graphql');
+var express = require("express");
+var graphqlHTTP = require("express-graphql");
 var cors = require("cors");
 var { makeExecutableSchema } = require("graphql-tools");
 
-// var typeDefs = require("./types");
-// var resolvers = require("./resolvers");
+var typeDefs = require("./types");
+var resolvers = require("./resolvers");
 
 const schema = makeExecutableSchema({
-//   typeDefs,
-//   resolvers
+  typeDefs,
+  resolvers
 });
 
 var app = express();
 
 app.use(cors());
+
+app.use(
+  "/refsql",
+  graphqlHTTP({
+    schema,
+    graphiql: true
+  })
+);
+
+app.listen(4001);
